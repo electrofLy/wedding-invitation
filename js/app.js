@@ -96,8 +96,10 @@ function createBalloons(loadedImages) {
       .attr('rx', width / 2)
       .attr('ry', height / 2 - 15);
 
+    // Connect triangle to the bottom of the ellipse - adjusted to remove the gap
+    const ellipseBottom = height / 2 - 16 + (height / 2 - 16); // Calculate bottom point of ellipse
     clip.append('path')
-      .attr('d', `M${width/2 - 15},${height - 30} L${width/2},${height - 10} L${width/2 + 15},${height - 30}`)
+      .attr('d', `M${width/2 - 16},${ellipseBottom} L${width/2},${ellipseBottom + 20} L${width/2 + 16},${ellipseBottom} Z`)
       .attr('fill', '#fff');
 
     // Create balloon group
@@ -146,7 +148,7 @@ function createBalloons(loadedImages) {
 
     balloon.append('path')
       .attr('class', 'balloon-string')
-      .attr('d', `M${width/2},${height - 10} C${width/2},${height + stringLength/3} ${width/2 + 20},${height + stringLength/2} ${width/2},${height + stringLength}`)
+      .attr('d', `M${width/2},${height - 14} C${width/2},${height + stringLength/3} ${width/2 + 20},${height + stringLength/2} ${width/2},${height + stringLength}`)
       .attr('fill', 'none')
       .attr('stroke', stringColor)
       .attr('stroke-width', stringStyle.width)
