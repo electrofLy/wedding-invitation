@@ -30,21 +30,21 @@ const config = {
 
 // String styles for balloons
 const stringColors = [
-  '#FF5252', // Red
-  '#4CAF50', // Green
-  '#2196F3', // Blue
-  '#FFC107', // Amber
-  '#9C27B0', // Purple
-  '#FF9800'  // Orange
+  '#45A670',
+  '#11957B',
+  '#00827E',
+  '#006E79',
+  '#225B6C',
+  '#2F4858'
 ];
 
 const stringStyles = [
   { width: 2, pattern: null }, // Solid, thin
   { width: 3, pattern: null }, // Solid, medium
   { width: 4, pattern: null }, // Solid, thick
-  { width: 2, pattern: null }, // Solid, thin (was dashed)
-  { width: 3, pattern: null }, // Solid, medium (was dashed)
-  { width: 2, pattern: null }  // Solid, thin (was dotted)
+  { width: 2, pattern: null }, // Solid, thin
+  { width: 3, pattern: null }, // Solid, medium
+  { width: 2, pattern: null }  // Solid, thin
 ];
 
 // Initialize SVG container
