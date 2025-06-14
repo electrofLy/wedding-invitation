@@ -30,12 +30,12 @@ const config = {
 
 // String styles for balloons
 const stringColors = [
-  '#45A670',
-  '#11957B',
-  '#00827E',
-  '#006E79',
-  '#225B6C',
-  '#2F4858'
+  '#eaae19',
+  '#eaae19',
+  '#eaae19',
+  '#c2bdbd',
+  '#c2bdbd',
+  '#c2bdbd'
 ];
 
 const stringStyles = [
