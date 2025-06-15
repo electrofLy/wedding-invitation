@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function setupExpandButton() {
     const expandBtn = document.getElementById('expand-btn');
     const hiddenContent = document.getElementById('hidden-content');
+    const balloonContainer = document.getElementById('balloon-container');
+    const fireworkContainer = document.getElementById('firework-container');
 
     if (expandBtn && hiddenContent) {
       // Add both click and touch events for better mobile support
@@ -96,18 +98,58 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
           }
 
-
           // Toggle the expanded class on the content
           hiddenContent.classList.toggle('expanded');
           // Toggle the expanded class on the button to rotate it
           expandBtn.classList.toggle('expanded');
 
-          // Create fireworks when the button is clicked
-          createFireworks(expandBtn);
+          // Check if content is expanded
+          const isExpanded = hiddenContent.classList.contains('expanded');
+
+          // Handle balloon and firework visibility with fade effect
+          if (isExpanded) {
+            // Fade out balloons and fireworks
+            if (balloonContainer) {
+              balloonContainer.style.opacity = '0';
+              // After fade completes, set display to none for complete removal
+              setTimeout(() => {
+                balloonContainer.style.display = 'none';
+              }, 500); // Match transition duration
+            }
+
+            if (fireworkContainer) {
+              fireworkContainer.style.opacity = '0';
+              // After fade completes, set display to none for complete removal
+              setTimeout(() => {
+                fireworkContainer.style.display = 'none';
+              }, 500); // Match transition duration
+            }
+          } else {
+            // Immediately show and fade in balloons and fireworks when collapsing
+            if (balloonContainer) {
+              balloonContainer.style.display = 'block';
+              // Small delay to ensure display change is processed before opacity transition
+              setTimeout(() => {
+                balloonContainer.style.opacity = '1';
+              }, 10);
+            }
+
+            if (fireworkContainer) {
+              fireworkContainer.style.display = 'block';
+              // Small delay to ensure display change is processed before opacity transition
+              setTimeout(() => {
+                fireworkContainer.style.opacity = '1';
+              }, 10);
+            }
+
+            // Create fireworks when the button is clicked to collapse
+            createFireworks(expandBtn);
+          }
         });
       });
     }
   }
+
   // Function to create fireworks animation
   function createFireworks(sourceElement = null) {
     const fireworkContainer = document.getElementById('firework-container');
@@ -326,5 +368,4 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('resize', resizeHandler);
   resizeHandler();
 });
-
 
