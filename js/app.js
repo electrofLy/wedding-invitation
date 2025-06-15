@@ -2,15 +2,34 @@ import * as d3 from 'd3';
 
 // Wait for the document to be fully loaded before executing
 document.addEventListener('DOMContentLoaded', function() {
-  // Image paths
-  const imagePaths = [
-    'img/2F2098DB-9E71-4BD2-BA08-A895D157C5BB_1_105_c.jpeg',
-    'img/50C2DACD-F075-49E6-8B95-1BDF4C76824C_1_105_c.jpeg',
-    'img/62CF9EC7-484C-4C7F-B425-7EDBCB6074D5_1_105_c.jpeg',
-    'img/7A295514-B6D0-44CD-B664-5FE67B69E682_1_105_c.jpeg',
-    'img/BADDDF87-012D-4209-ACDF-C753E1F93E50_1_105_c.jpeg',
-    'img/E8BCB92C-2940-49F6-913A-6D6BB97F5648_1_105_c.jpeg'
-  ];
+  // Function to create an array with consecutive numbers from 1 to max
+  function createConsecutiveArray(max) {
+    return Array.from({ length: max }, (_, i) => i + 1);
+  }
+
+  // Function to get n random unique numbers from the array
+  function getRandomUniqueNumbers(array, count) {
+    const result = [];
+    const arrayCopy = [...array]; // Create a copy to avoid modifying the original
+
+    for (let i = 0; i < count; i++) {
+      if (arrayCopy.length === 0) break; // Safety check
+      // Get random index
+      const randomIndex = Math.floor(Math.random() * arrayCopy.length);
+      // Remove and get the element at the random index
+      const randomElement = arrayCopy.splice(randomIndex, 1)[0];
+      result.push(randomElement);
+    }
+
+    return result;
+  }
+
+  // Create array with numbers 1-38
+  const imageNumbers = createConsecutiveArray(38);
+  // Get 6 random unique numbers
+  const selectedNumbers = getRandomUniqueNumbers(imageNumbers, 6);
+  // Create image paths from the selected numbers
+  const imagePaths = selectedNumbers.map(num => `img/${num}.jpg`);
 
   // Preload images to get their dimensions
   const imageObjects = imagePaths.map(path => {
@@ -216,19 +235,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to start random fireworks across the screen
   function startRandomFireworks() {
-    // Create initial fireworks
-    for (let i = 0; i < 5; i++) {
-      setTimeout(() => {
-        createFireworks();
-      }, i * 300); // Stagger initial fireworks
-    }
-
     // Continuously create new fireworks at random intervals
     function createRandomFirework() {
       createFireworks();
 
-      // Schedule next firework with random delay (between 100ms and 2000ms)
-      const nextDelay = 100 + Math.random() * 1900;
+      // Schedule next firework with random delay (between 500ms and 2000ms)
+      const nextDelay = 500 + Math.random() * 1900;
       setTimeout(createRandomFirework, nextDelay);
     }
 
