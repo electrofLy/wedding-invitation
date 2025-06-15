@@ -83,11 +83,18 @@ function setupExpandButton() {
   const hiddenContent = document.getElementById('hidden-content');
 
   if (expandBtn && hiddenContent) {
-    expandBtn.addEventListener('click', function() {
-      // Toggle the expanded class on the content
-      hiddenContent.classList.toggle('expanded');
-      // Toggle the expanded class on the button to rotate it
-      expandBtn.classList.toggle('expanded');
+    // Add both click and touch events for better mobile support
+    ['click', 'touchend'].forEach(eventType => {
+      expandBtn.addEventListener(eventType, function(e) {
+        // Prevent default behavior for touch events
+        if (e.type === 'touchend') {
+          e.preventDefault();
+        }
+        // Toggle the expanded class on the content
+        hiddenContent.classList.toggle('expanded');
+        // Toggle the expanded class on the button to rotate it
+        expandBtn.classList.toggle('expanded');
+      });
     });
   }
 }
