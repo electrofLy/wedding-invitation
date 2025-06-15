@@ -77,6 +77,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set up the expand button functionality
     setupExpandButton();
+
+    // Start automatic fireworks
+    startRandomFireworks();
   });
 
   // Function to handle the expand button click
@@ -106,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   // Function to create fireworks animation
-  function createFireworks(sourceElement) {
+  function createFireworks(sourceElement = null) {
     const fireworkContainer = document.getElementById('firework-container');
     if (!fireworkContainer) {
       console.error('Firework container not found!');
@@ -115,19 +118,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Creating fireworks');
 
-    // Get button position to determine where fireworks start
-    const buttonRect = sourceElement.getBoundingClientRect();
-    const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-    const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+    // If sourceElement is provided, use its position, otherwise use random position
+    let startX, startY;
+    if (sourceElement) {
+      // Get button position to determine where fireworks start
+      const buttonRect = sourceElement.getBoundingClientRect();
+      startX = buttonRect.left + buttonRect.width / 2;
+      startY = buttonRect.top + buttonRect.height / 2;
+    } else {
+      // Random position across the screen
+      startX = Math.random() * window.innerWidth;
+      startY = Math.random() * window.innerHeight;
+    }
 
     // Create a new firework
     const firework = document.createElement('div');
     firework.className = 'firework';
-    firework.style.left = `${buttonCenterX}px`;
-    firework.style.top = `${buttonCenterY}px`;
+    firework.style.left = `${startX}px`;
+    firework.style.top = `${startY}px`;
 
-    // Number of particles in the explosion
-    const particleCount = 30;
+    // Number of particles in the explosion - increased from 30 to 50
+    const particleCount = 50;
 
     // Create the particles
     for (let i = 0; i < particleCount; i++) {
@@ -136,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Random angle and distance for the particle
       const angle = Math.random() * Math.PI * 2;
-      const distance = 30 + Math.random() * 70; // Random distance
+      const distance = 40 + Math.random() * 100; // Increased distance for larger explosions
 
       // Set the translate values as CSS variables
       particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
@@ -159,6 +170,28 @@ document.addEventListener('DOMContentLoaded', function() {
         fireworkContainer.removeChild(firework);
       }
     }, 1000);
+  }
+
+  // Function to start random fireworks across the screen
+  function startRandomFireworks() {
+    // Create initial fireworks
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        createFireworks();
+      }, i * 300); // Stagger initial fireworks
+    }
+
+    // Continuously create new fireworks at random intervals
+    function createRandomFirework() {
+      createFireworks();
+
+      // Schedule next firework with random delay (between 100ms and 2000ms)
+      const nextDelay = 100 + Math.random() * 1900;
+      setTimeout(createRandomFirework, nextDelay);
+    }
+
+    // Start the continuous fireworks after a short delay
+    setTimeout(createRandomFirework, 2000);
   }
 
   function createBalloons(loadedImages) {
@@ -293,4 +326,5 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('resize', resizeHandler);
   resizeHandler();
 });
+
 

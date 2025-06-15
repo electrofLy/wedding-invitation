@@ -24,29 +24,27 @@
   background-color: #ff5050;
   box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.8);
   animation: explode 0.8s ease-out forwards;
+  transform: translate(0, 0);
 }
 
-.firework.active {
-  opacity: 1;
-}
+/* Multiple color variations for particles */
+.particle.color-1 { background-color: #ff5050; box-shadow: 0 0 8px 3px rgba(255, 80, 80, 0.8); }
+.particle.color-2 { background-color: #ffcf50; box-shadow: 0 0 8px 3px rgba(255, 207, 80, 0.8); }
+.particle.color-3 { background-color: #50ff50; box-shadow: 0 0 8px 3px rgba(80, 255, 80, 0.8); }
+.particle.color-4 { background-color: #50ffcf; box-shadow: 0 0 8px 3px rgba(80, 255, 207, 0.8); }
+.particle.color-5 { background-color: #5050ff; box-shadow: 0 0 8px 3px rgba(80, 80, 255, 0.8); }
+.particle.color-6 { background-color: #cf50ff; box-shadow: 0 0 8px 3px rgba(207, 80, 255, 0.8); }
+.particle.color-7 { background-color: #ff50cf; box-shadow: 0 0 8px 3px rgba(255, 80, 207, 0.8); }
+.particle.color-8 { background-color: #ffffff; box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.8); }
 
 @keyframes explode {
   0% {
+    transform: translate(0, 0);
     opacity: 1;
-    transform: scale(0) translate(0, 0);
   }
   100% {
+    transform: translate(var(--tx), var(--ty));
     opacity: 0;
-    transform: scale(1) translate(var(--tx), var(--ty));
   }
 }
 
-/* Define some colors for the particles */
-.color-1 { background-color: #f5d300; }
-.color-2 { background-color: #ff9933; }
-.color-3 { background-color: #ff5050; }
-.color-4 { background-color: #ff5188; }
-.color-5 { background-color: #cb6ce6; }
-.color-6 { background-color: #3d84b8; }
-.color-7 { background-color: #21bf73; }
-.color-8 { background-color: #5A7652; }
