@@ -1,12 +1,24 @@
 {
-  "short_name": "",
-  "name": "",
-  "icons": [{
-    "src": "icon.png",
-    "type": "image/png",
-    "sizes": "192x192"
-  }],
-  "start_url": "/?utm_source=homescreen",
-  "background_color": "#fafafa",
-  "theme_color": "#fafafa"
+  "name": "Сватбата на Ивайло и Стелина",
+  "short_name": "Сватбена покана",
+  "description": "Заповядайте на нашата сватба на 21 август 2025, 17:00 в Двореца, Балчик, България",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#d9e4d5",
+  "theme_color": "#d9e4d5",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "orientation": "portrait",
+  "lang": "bg"
 }
+
