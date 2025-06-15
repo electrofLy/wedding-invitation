@@ -7,7 +7,6 @@
   justify-content: center; /* Centered on desktop */
   padding: 12px;
   box-sizing: border-box;
-  overflow-y: auto; /* Add scroll if content exceeds height */
 }
 
 .text-container {
@@ -95,11 +94,6 @@ h1 {
     max-width: 95%;
     padding: 18px 10px 6px 10px;
   }
-
-  .invitation-container {
-    justify-content: flex-start; /* Align to top on mobile */
-    padding-top: 30px; /* Add some top padding for better appearance */
-  }
 }
 
 @media (max-width: 480px) {
@@ -120,12 +114,5 @@ h1 {
   .expand-button svg {
     width: 20px;
     height: 20px;
-  }
-}
-
-/* Add padding at the top for better visual appearance when sticking to top */
-@media (max-height: 600px) {
-  .invitation-container {
-    padding-top: 30px;
   }
 }
