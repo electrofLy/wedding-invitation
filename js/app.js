@@ -83,18 +83,27 @@ function setupExpandButton() {
   const hiddenContent = document.getElementById('hidden-content');
 
   if (expandBtn && hiddenContent) {
-    // Add both click and touch events for better mobile support
-    ['click', 'touchend'].forEach(eventType => {
-      expandBtn.addEventListener(eventType, function(e) {
-        // Prevent default behavior for touch events
-        if (e.type === 'touchend') {
-          e.preventDefault();
-        }
+    // Use touchstart for iOS Safari compatibility
+    expandBtn.addEventListener('touchstart', function(e) {
+      // Prevent default to avoid potential double-firing
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Toggle the expanded class on the content
+      hiddenContent.classList.toggle('expanded');
+      // Toggle the expanded class on the button to rotate it
+      expandBtn.classList.toggle('expanded');
+    }, { passive: false });
+
+    // Keep click for desktop browsers
+    expandBtn.addEventListener('click', function(e) {
+      // Only process click if it's not a touch device
+      if (e.pointerType !== 'touch' && e.pointerType !== 'pen') {
         // Toggle the expanded class on the content
         hiddenContent.classList.toggle('expanded');
         // Toggle the expanded class on the button to rotate it
         expandBtn.classList.toggle('expanded');
-      });
+      }
     });
   }
 }
