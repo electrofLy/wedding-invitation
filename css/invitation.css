@@ -41,7 +41,7 @@ p {
 }
 
 .hidden-content.expanded {
-  max-height: 512px; /* Adjust based on content size */
+  max-height: 532px; /* Adjust based on content size */
 }
 
 @media (max-height: 512px) {
