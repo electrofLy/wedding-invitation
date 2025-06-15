@@ -93,17 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
           }
 
-          if (hiddenContent.classList.contains('expanded')) {
-            hiddenContent.classList.remove('expanded');
-          } else {
-            hiddenContent.classList.add('expanded');
-          }
 
-          if (expandBtn.classList.contains('expanded')) {
-            hiddenContent.classList.remove('expanded');
-          } else  {
-            hiddenContent.classList.add('expanded');
-          }
+          // Toggle the expanded class on the content
+          hiddenContent.classList.toggle('expanded');
+          // Toggle the expanded class on the button to rotate it
+          expandBtn.classList.toggle('expanded');
 
           // Create fireworks when the button is clicked
           createFireworks(expandBtn);
