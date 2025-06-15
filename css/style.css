@@ -16,8 +16,12 @@ html {
   background: #d9e4d5;
   font-size: 1em;
   line-height: 1.4;
-  font-family: "Great Vibes", cursive;
+  font-family: "Roboto",  sans-serif;
   font-style: normal;
+}
+
+h1 {
+  font-family: "Great Vibes",  cursive;
 }
 
 html, body {
