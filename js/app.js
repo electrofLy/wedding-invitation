@@ -24,10 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
     return result;
   }
 
-  // Create array with numbers 1-38
-  const imageNumbers = [0, ...createConsecutiveArray(36)];
+  const imageNumbers = createConsecutiveArray(36);
   // Get 6 random unique numbers
-  const selectedNumbers = [...getRandomUniqueNumbers(imageNumbers, 5)];
+  const selectedNumbers = [0, ...getRandomUniqueNumbers(imageNumbers, 5)];
   // Create image paths from the selected numbers
   const imagePaths = selectedNumbers.map(num => `img/${num}.jpg`);
 
