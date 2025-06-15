@@ -1,0 +1,82 @@
+.invitation-container {
+  width:  100%;
+height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding:12px;
+  box-sizing: border-box;
+}
+
+.text-container {
+  display: inline-block;
+  padding: 22px 12px 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  z-index: 1;
+}
+
+h1 {
+  font-size: xxx-large;
+  font-weight: bold;
+  color: black;
+  margin: 0;
+}
+
+.hidden-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.hidden-content.expanded {
+  max-height: 300px; /* Adjust based on content size */
+}
+
+.expand-button {
+  background: none;
+  border: 2px solid #5A7652;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 45px;
+  height: 45px;
+  position: relative;
+}
+
+.expand-button.expanded {
+  transform: rotate(180deg);
+  animation: none;
+}
+
+.expand-button:not(.expanded) {
+  animation: pulse 1.5s infinite;
+}
+
+.expand-button svg {
+  fill: none;
+  stroke: #5A7652;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(90, 118, 82, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(90, 118, 82, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(90, 118, 82, 0);
+  }
+}

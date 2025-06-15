@@ -72,7 +72,25 @@ Promise.all(imageObjects.map(img => {
   createBalloons(loadedImages);
   // Start animation
   animate();
+
+  // Set up the expand button functionality
+  setupExpandButton();
 });
+
+// Function to handle the expand button click
+function setupExpandButton() {
+  const expandBtn = document.getElementById('expand-btn');
+  const hiddenContent = document.getElementById('hidden-content');
+
+  if (expandBtn && hiddenContent) {
+    expandBtn.addEventListener('click', function() {
+      // Toggle the expanded class on the content
+      hiddenContent.classList.toggle('expanded');
+      // Toggle the expanded class on the button to rotate it
+      expandBtn.classList.toggle('expanded');
+    });
+  }
+}
 
 function createBalloons(loadedImages) {
   for (let i = 0; i < config.balloonCount; i++) {
