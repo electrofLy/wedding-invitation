@@ -1,5 +1,7 @@
 # Wedding Invitation Website
 
+Vibe coded with Copilot <3.
+
 A beautiful, interactive web-based wedding invitation for Ивайло and Стелина's wedding on August 21, 2025. This site
 features animated balloons with randomly selected photos, fireworks effects, and a responsive design that works on all
 devices.
