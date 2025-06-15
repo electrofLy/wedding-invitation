@@ -27,12 +27,19 @@ h1 {
 
 .hidden-content {
   max-height: 0;
+  height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease-out;
+  transition: max-height 0.5s ease-out, height 0.5s ease-out;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .hidden-content.expanded {
   max-height: 300px; /* Adjust based on content size */
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: max-height 0.5s ease-out, opacity 0.3s ease-out, visibility 0s;
 }
 
 .expand-button {

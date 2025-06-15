@@ -89,6 +89,9 @@ function setupExpandButton() {
       e.preventDefault();
       e.stopPropagation();
 
+      // Force a repaint before toggling classes (helps iOS rendering)
+      void hiddenContent.offsetWidth;
+
       // Toggle the expanded class on the content
       hiddenContent.classList.toggle('expanded');
       // Toggle the expanded class on the button to rotate it
@@ -96,6 +99,12 @@ function setupExpandButton() {
 
       // Create fireworks when the button is clicked
       createFireworks(expandBtn);
+
+      // Force iOS to recognize the change
+      setTimeout(function() {
+        // Additional trigger for iOS Safari
+        window.dispatchEvent(new Event('resize'));
+      }, 50);
     }, { passive: false });
 
     // Keep click for desktop browsers
