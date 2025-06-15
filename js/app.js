@@ -1,304 +1,302 @@
 import * as d3 from 'd3';
 
-// Image paths
-const imagePaths = [
-  'img/2F2098DB-9E71-4BD2-BA08-A895D157C5BB_1_105_c.jpeg',
-  'img/50C2DACD-F075-49E6-8B95-1BDF4C76824C_1_105_c.jpeg',
-  'img/62CF9EC7-484C-4C7F-B425-7EDBCB6074D5_1_105_c.jpeg',
-  'img/7A295514-B6D0-44CD-B664-5FE67B69E682_1_105_c.jpeg',
-  'img/BADDDF87-012D-4209-ACDF-C753E1F93E50_1_105_c.jpeg',
-  'img/E8BCB92C-2940-49F6-913A-6D6BB97F5648_1_105_c.jpeg'
-];
+// Wait for the document to be fully loaded before executing
+document.addEventListener('DOMContentLoaded', function() {
+  // Image paths
+  const imagePaths = [
+    'img/2F2098DB-9E71-4BD2-BA08-A895D157C5BB_1_105_c.jpeg',
+    'img/50C2DACD-F075-49E6-8B95-1BDF4C76824C_1_105_c.jpeg',
+    'img/62CF9EC7-484C-4C7F-B425-7EDBCB6074D5_1_105_c.jpeg',
+    'img/7A295514-B6D0-44CD-B664-5FE67B69E682_1_105_c.jpeg',
+    'img/BADDDF87-012D-4209-ACDF-C753E1F93E50_1_105_c.jpeg',
+    'img/E8BCB92C-2940-49F6-913A-6D6BB97F5648_1_105_c.jpeg'
+  ];
 
-// Preload images to get their dimensions
-const imageObjects = imagePaths.map(path => {
-  const img = new Image();
-  img.src = path;
-  return img;
-});
-
-// Configuration
-const config = {
-  balloonCount: 6,
-  minSize: 120,
-  maxSize: 200,
-  minSpeed: 0.5,
-  maxSpeed: 1.5,
-  minDrift: 0.2,
-  maxDrift: 0.8
-};
-
-// String styles for balloons
-const stringColors = [
-  '#5A7652',
-  '#5A7652',
-  '#5A7652',
-  '#c2bdbd',
-  '#c2bdbd',
-  '#c2bdbd'
-];
-
-const stringStyles = [
-  { width: 2, pattern: null }, // Solid, thin
-  { width: 3, pattern: null }, // Solid, medium
-  { width: 4, pattern: null }, // Solid, thick
-  { width: 2, pattern: null }, // Solid, thin
-  { width: 3, pattern: null }, // Solid, medium
-  { width: 2, pattern: null }  // Solid, thin
-];
-
-// Initialize SVG container
-const svg = d3.select('#balloon-container')
-  .append('svg')
-  .attr('width', '100%')
-  .attr('height', '100%');
-
-// Define balloon shape as a clip path
-const defs = svg.append('defs');
-
-// Create balloon clips and balloons
-const balloons = [];
-
-// Wait for images to load
-Promise.all(imageObjects.map(img => {
-  return new Promise(resolve => {
-    if (img.complete) {
-      resolve(img);
-    } else {
-      img.onload = () => resolve(img);
-    }
+  // Preload images to get their dimensions
+  const imageObjects = imagePaths.map(path => {
+    const img = new Image();
+    img.src = path;
+    return img;
   });
-})).then(loadedImages => {
-  createBalloons(loadedImages);
-  // Start animation
-  animate();
 
-  // Set up the expand button functionality
-  setupExpandButton();
-});
+  // Configuration
+  const config = {
+    balloonCount: 6,
+    minSize: 120,
+    maxSize: 200,
+    minSpeed: 0.5,
+    maxSpeed: 1.5,
+    minDrift: 0.2,
+    maxDrift: 0.8
+  };
 
-// Function to handle the expand button click
-function setupExpandButton() {
-  const expandBtn = document.getElementById('expand-btn');
-  const hiddenContent = document.getElementById('hidden-content');
+  // String styles for balloons
+  const stringColors = [
+    '#5A7652',
+    '#5A7652',
+    '#5A7652',
+    '#c2bdbd',
+    '#c2bdbd',
+    '#c2bdbd'
+  ];
 
-  if (expandBtn && hiddenContent) {
-    // Use touchstart for iOS Safari compatibility
-    expandBtn.addEventListener('touchstart', function(e) {
-      // Prevent default to avoid potential double-firing
-      e.preventDefault();
-      e.stopPropagation();
+  const stringStyles = [
+    { width: 2, pattern: null }, // Solid, thin
+    { width: 3, pattern: null }, // Solid, medium
+    { width: 4, pattern: null }, // Solid, thick
+    { width: 2, pattern: null }, // Solid, thin
+    { width: 3, pattern: null }, // Solid, medium
+    { width: 2, pattern: null }  // Solid, thin
+  ];
 
-      // Toggle the expanded class on the content
-      hiddenContent.classList.toggle('expanded');
-      // Toggle the expanded class on the button to rotate it
-      expandBtn.classList.toggle('expanded');
+  // Initialize SVG container
+  const svg = d3.select('#balloon-container')
+    .append('svg')
+    .attr('width', '100%')
+    .attr('height', '100%');
 
-      // Create fireworks when the button is clicked
-      createFireworks(expandBtn);
-    }, { passive: false });
+  // Define balloon shape as a clip path
+  const defs = svg.append('defs');
 
-    // Keep click for desktop browsers
-    expandBtn.addEventListener('click', function(e) {
-      // Only process click if it's not a touch device
-      if (e.pointerType !== 'touch' && e.pointerType !== 'pen') {
-        // Toggle the expanded class on the content
-        hiddenContent.classList.toggle('expanded');
-        // Toggle the expanded class on the button to rotate it
-        expandBtn.classList.toggle('expanded');
+  // Create balloon clips and balloons
+  const balloons = [];
 
-        // Create fireworks when the button is clicked
-        createFireworks(expandBtn);
+  // Wait for images to load
+  Promise.all(imageObjects.map(img => {
+    return new Promise(resolve => {
+      if (img.complete) {
+        resolve(img);
+      } else {
+        img.onload = () => resolve(img);
       }
     });
-  }
-}
+  })).then(loadedImages => {
+    createBalloons(loadedImages);
+    // Start animation
+    animate();
 
-// Function to create fireworks animation
-function createFireworks(sourceElement) {
-  const fireworkContainer = document.getElementById('firework-container');
-  if (!fireworkContainer) {
-    console.error('Firework container not found!');
-    return;
-  }
-
-  console.log('Creating fireworks');
-
-  // Get button position to determine where fireworks start
-  const buttonRect = sourceElement.getBoundingClientRect();
-  const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-  const buttonCenterY = buttonRect.top + buttonRect.height / 2;
-
-  // Create a new firework
-  const firework = document.createElement('div');
-  firework.className = 'firework';
-  firework.style.left = `${buttonCenterX}px`;
-  firework.style.top = `${buttonCenterY}px`;
-
-  // Number of particles in the explosion
-  const particleCount = 30;
-
-  // Create the particles
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.className = `particle color-${Math.floor(Math.random() * 8) + 1}`;
-
-    // Random angle and distance for the particle
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 30 + Math.random() * 70; // Random distance
-
-    // Set the translate values as CSS variables
-    particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
-    particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
-
-    firework.appendChild(particle);
-  }
-
-  // Add firework to container
-  fireworkContainer.appendChild(firework);
-
-  // Trigger animation
-  requestAnimationFrame(() => {
-    firework.classList.add('active');
+    // Set up the expand button functionality
+    setupExpandButton();
   });
 
-  // Remove firework element after animation completes
-  setTimeout(() => {
-    if (fireworkContainer.contains(firework)) {
-      fireworkContainer.removeChild(firework);
+  // Function to handle the expand button click
+  function setupExpandButton() {
+    const expandBtn = document.getElementById('expand-btn');
+    const hiddenContent = document.getElementById('hidden-content');
+
+    if (expandBtn && hiddenContent) {
+      // Add both click and touch events for better mobile support
+      ['click', 'touchend'].forEach(eventType => {
+        expandBtn.addEventListener(eventType, function(e) {
+          // Prevent default behavior for touch events
+          if (e.type === 'touchend') {
+            e.preventDefault();
+          }
+
+          if (hiddenContent.classList.contains('expanded')) {
+            hiddenContent.classList.remove('expanded');
+          } else {
+            hiddenContent.classList.add('expanded');
+          }
+
+          if (expandBtn.classList.contains('expanded')) {
+            hiddenContent.classList.remove('expanded');
+          } else  {
+            hiddenContent.classList.add('expanded');
+          }
+
+          // Create fireworks when the button is clicked
+          createFireworks(expandBtn);
+        });
+      });
     }
-  }, 1000);
-}
-
-function createBalloons(loadedImages) {
-  for (let i = 0; i < config.balloonCount; i++) {
-    const size = Math.random() * (config.maxSize - config.minSize) + config.minSize;
-    const width = size;
-    const height = size * 1.2;
-
-    // Random initial position
-    const x = Math.random() * (window.innerWidth - width);
-    const y = Math.random() * (window.innerHeight - height);
-
-    // Create clipPath for balloon shape
-    const clipId = `balloon-clip-${i}`;
-    const clip = defs.append('clipPath')
-      .attr('id', clipId);
-
-    // Balloon shape (main body is oval, small triangle at bottom)
-    clip.append('ellipse')
-      .attr('cx', width / 2)
-      .attr('cy', height / 2 - 15)
-      .attr('rx', width / 2)
-      .attr('ry', height / 2 - 15);
-
-    // Connect triangle to the bottom of the ellipse - adjusted to remove the gap
-    const ellipseBottom = height / 2 - 16 + (height / 2 - 16); // Calculate bottom point of ellipse
-    clip.append('path')
-      .attr('d', `M${width/2 - 16},${ellipseBottom} L${width/2},${ellipseBottom + 20} L${width/2 + 16},${ellipseBottom} Z`)
-      .attr('fill', '#fff');
-
-    // Create balloon group
-    const balloon = svg.append('g')
-      .attr('class', 'balloon')
-      .attr('transform', `translate(${x}, ${y})`);
-
-    // Get current image
-    const currentImage = loadedImages[i % loadedImages.length];
-    const imgWidth = currentImage.width;
-    const imgHeight = currentImage.height;
-
-    // Calculate aspect ratio to properly fit image in balloon
-    const containerRatio = width / height;
-    const imageRatio = imgWidth / imgHeight;
-
-    let scaledWidth, scaledHeight, offsetX, offsetY;
-
-    if (imageRatio > containerRatio) {
-      // Image is wider than container
-      scaledHeight = height;
-      scaledWidth = height * imageRatio;
-      offsetX = (width - scaledWidth) / 2;
-      offsetY = 0;
-    } else {
-      // Image is taller than container
-      scaledWidth = width;
-      scaledHeight = width / imageRatio;
-      offsetX = 0;
-      offsetY = (height - scaledHeight) / 2;
+  }
+  // Function to create fireworks animation
+  function createFireworks(sourceElement) {
+    const fireworkContainer = document.getElementById('firework-container');
+    if (!fireworkContainer) {
+      console.error('Firework container not found!');
+      return;
     }
 
-    // Add image with clip path
-    balloon.append('image')
-      .attr('xlink:href', imagePaths[i % imagePaths.length])
-      .attr('width', scaledWidth)
-      .attr('height', scaledHeight)
-      .attr('x', offsetX)
-      .attr('y', offsetY)
-      .attr('clip-path', `url(#${clipId})`);
+    console.log('Creating fireworks');
 
-    // Add string to balloon with different color and style for each balloon
-    const stringLength = 50 + Math.random() * 50;
-    const stringColor = stringColors[i % stringColors.length];
-    const stringStyle = stringStyles[i % stringStyles.length];
+    // Get button position to determine where fireworks start
+    const buttonRect = sourceElement.getBoundingClientRect();
+    const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+    const buttonCenterY = buttonRect.top + buttonRect.height / 2;
 
-    balloon.append('path')
-      .attr('class', 'balloon-string')
-      .attr('d', `M${width/2},${height - 14} C${width/2},${height + stringLength/3} ${width/2 + 20},${height + stringLength/2} ${width/2},${height + stringLength}`)
-      .attr('fill', 'none')
-      .attr('stroke', stringColor)
-      .attr('stroke-width', stringStyle.width)
-      .attr('stroke-dasharray', stringStyle.pattern);
+    // Create a new firework
+    const firework = document.createElement('div');
+    firework.className = 'firework';
+    firework.style.left = `${buttonCenterX}px`;
+    firework.style.top = `${buttonCenterY}px`;
 
-    // Store balloon data for animation
-    balloons.push({
-      element: balloon,
-      x,
-      y,
-      width,
-      height,
-      speedX: (Math.random() * (config.maxSpeed - config.minSpeed) + config.minSpeed) * (Math.random() > 0.5 ? 1 : -1),
-      speedY: (Math.random() * (config.maxSpeed - config.minSpeed) + config.minSpeed) * (Math.random() > 0.5 ? 1 : -1),
-      drift: Math.random() * (config.maxDrift - config.minDrift) + config.minDrift,
-      theta: Math.random() * Math.PI * 2
+    // Number of particles in the explosion
+    const particleCount = 30;
+
+    // Create the particles
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = `particle color-${Math.floor(Math.random() * 8) + 1}`;
+
+      // Random angle and distance for the particle
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 30 + Math.random() * 70; // Random distance
+
+      // Set the translate values as CSS variables
+      particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+      particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+
+      firework.appendChild(particle);
+    }
+
+    // Add firework to container
+    fireworkContainer.appendChild(firework);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+      firework.classList.add('active');
     });
+
+    // Remove firework element after animation completes
+    setTimeout(() => {
+      if (fireworkContainer.contains(firework)) {
+        fireworkContainer.removeChild(firework);
+      }
+    }, 1000);
   }
-}
 
-// Animation loop
-function animate() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  function createBalloons(loadedImages) {
+    for (let i = 0; i < config.balloonCount; i++) {
+      const size = Math.random() * (config.maxSize - config.minSize) + config.minSize;
+      const width = size;
+      const height = size * 1.2;
 
-  balloons.forEach(balloon => {
-    // Update position with slight drift
-    balloon.theta += balloon.drift * 0.01;
-    balloon.x += balloon.speedX + Math.sin(balloon.theta) * 0.5;
-    balloon.y += balloon.speedY;
+      // Random initial position
+      const x = Math.random() * (window.innerWidth - width);
+      const y = Math.random() * (window.innerHeight - height);
 
-    // Bounce off edges
-    if (balloon.x < 0 || balloon.x > width - balloon.width) {
-      balloon.speedX *= -1;
-      balloon.x = Math.max(0, Math.min(width - balloon.width, balloon.x));
+      // Create clipPath for balloon shape
+      const clipId = `balloon-clip-${i}`;
+      const clip = defs.append('clipPath')
+        .attr('id', clipId);
+
+      // Balloon shape (main body is oval, small triangle at bottom)
+      clip.append('ellipse')
+        .attr('cx', width / 2)
+        .attr('cy', height / 2 - 15)
+        .attr('rx', width / 2)
+        .attr('ry', height / 2 - 15);
+
+      // Connect triangle to the bottom of the ellipse - adjusted to remove the gap
+      const ellipseBottom = height / 2 - 16 + (height / 2 - 16); // Calculate bottom point of ellipse
+      clip.append('path')
+        .attr('d', `M${width/2 - 16},${ellipseBottom} L${width/2},${ellipseBottom + 20} L${width/2 + 16},${ellipseBottom} Z`)
+        .attr('fill', '#fff');
+
+      // Create balloon group
+      const balloon = svg.append('g')
+        .attr('class', 'balloon')
+        .attr('transform', `translate(${x}, ${y})`);
+
+      // Get current image
+      const currentImage = loadedImages[i % loadedImages.length];
+      const imgWidth = currentImage.width;
+      const imgHeight = currentImage.height;
+
+      // Calculate aspect ratio to properly fit image in balloon
+      const containerRatio = width / height;
+      const imageRatio = imgWidth / imgHeight;
+
+      let scaledWidth, scaledHeight, offsetX, offsetY;
+
+      if (imageRatio > containerRatio) {
+        // Image is wider than container
+        scaledHeight = height;
+        scaledWidth = height * imageRatio;
+        offsetX = (width - scaledWidth) / 2;
+        offsetY = 0;
+      } else {
+        // Image is taller than container
+        scaledWidth = width;
+        scaledHeight = width / imageRatio;
+        offsetX = 0;
+        offsetY = (height - scaledHeight) / 2;
+      }
+
+      // Add image with clip path
+      balloon.append('image')
+        .attr('xlink:href', imagePaths[i % imagePaths.length])
+        .attr('width', scaledWidth)
+        .attr('height', scaledHeight)
+        .attr('x', offsetX)
+        .attr('y', offsetY)
+        .attr('clip-path', `url(#${clipId})`);
+
+      // Add string to balloon with different color and style for each balloon
+      const stringLength = 50 + Math.random() * 50;
+      const stringColor = stringColors[i % stringColors.length];
+      const stringStyle = stringStyles[i % stringStyles.length];
+
+      balloon.append('path')
+        .attr('class', 'balloon-string')
+        .attr('d', `M${width/2},${height - 14} C${width/2},${height + stringLength/3} ${width/2 + 20},${height + stringLength/2} ${width/2},${height + stringLength}`)
+        .attr('fill', 'none')
+        .attr('stroke', stringColor)
+        .attr('stroke-width', stringStyle.width)
+        .attr('stroke-dasharray', stringStyle.pattern);
+
+      // Store balloon data for animation
+      balloons.push({
+        element: balloon,
+        x,
+        y,
+        width,
+        height,
+        speedX: (Math.random() * (config.maxSpeed - config.minSpeed) + config.minSpeed) * (Math.random() > 0.5 ? 1 : -1),
+        speedY: (Math.random() * (config.maxSpeed - config.minSpeed) + config.minSpeed) * (Math.random() > 0.5 ? 1 : -1),
+        drift: Math.random() * (config.maxDrift - config.minDrift) + config.minDrift,
+        theta: Math.random() * Math.PI * 2
+      });
     }
+  }
 
-    if (balloon.y < 0 || balloon.y > height - balloon.height) {
-      balloon.speedY *= -1;
-      balloon.y = Math.max(0, Math.min(height - balloon.height, balloon.y));
-    }
+  // Animation loop
+  function animate() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
-    // Update balloon position
-    balloon.element.attr('transform', `translate(${balloon.x}, ${balloon.y})`);
-  });
+    balloons.forEach(balloon => {
+      // Update position with slight drift
+      balloon.theta += balloon.drift * 0.01;
+      balloon.x += balloon.speedX + Math.sin(balloon.theta) * 0.5;
+      balloon.y += balloon.speedY;
 
-  requestAnimationFrame(animate);
-}
+      // Bounce off edges
+      if (balloon.x < 0 || balloon.x > width - balloon.width) {
+        balloon.speedX *= -1;
+        balloon.x = Math.max(0, Math.min(width - balloon.width, balloon.x));
+      }
 
-// Handle window resize
-function resizeHandler() {
-  svg.attr('width', window.innerWidth).attr('height', window.innerHeight);
-}
+      if (balloon.y < 0 || balloon.y > height - balloon.height) {
+        balloon.speedY *= -1;
+        balloon.y = Math.max(0, Math.min(height - balloon.height, balloon.y));
+      }
 
-window.addEventListener('resize', resizeHandler);
-resizeHandler();
+      // Update balloon position
+      balloon.element.attr('transform', `translate(${balloon.x}, ${balloon.y})`);
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  // Handle window resize
+  function resizeHandler() {
+    svg.attr('width', window.innerWidth).attr('height', window.innerHeight);
+  }
+
+  window.addEventListener('resize', resizeHandler);
+  resizeHandler();
+});
 
