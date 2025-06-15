@@ -93,6 +93,9 @@ function setupExpandButton() {
       hiddenContent.classList.toggle('expanded');
       // Toggle the expanded class on the button to rotate it
       expandBtn.classList.toggle('expanded');
+
+      // Create fireworks when the button is clicked
+      createFireworks(expandBtn);
     }, { passive: false });
 
     // Keep click for desktop browsers
@@ -103,9 +106,68 @@ function setupExpandButton() {
         hiddenContent.classList.toggle('expanded');
         // Toggle the expanded class on the button to rotate it
         expandBtn.classList.toggle('expanded');
+
+        // Create fireworks when the button is clicked
+        createFireworks(expandBtn);
       }
     });
   }
+}
+
+// Function to create fireworks animation
+function createFireworks(sourceElement) {
+  const fireworkContainer = document.getElementById('firework-container');
+  if (!fireworkContainer) {
+    console.error('Firework container not found!');
+    return;
+  }
+
+  console.log('Creating fireworks');
+
+  // Get button position to determine where fireworks start
+  const buttonRect = sourceElement.getBoundingClientRect();
+  const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+  const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+
+  // Create a new firework
+  const firework = document.createElement('div');
+  firework.className = 'firework';
+  firework.style.left = `${buttonCenterX}px`;
+  firework.style.top = `${buttonCenterY}px`;
+
+  // Number of particles in the explosion
+  const particleCount = 30;
+
+  // Create the particles
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = `particle color-${Math.floor(Math.random() * 8) + 1}`;
+
+    // Random angle and distance for the particle
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 30 + Math.random() * 70; // Random distance
+
+    // Set the translate values as CSS variables
+    particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+    particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+
+    firework.appendChild(particle);
+  }
+
+  // Add firework to container
+  fireworkContainer.appendChild(firework);
+
+  // Trigger animation
+  requestAnimationFrame(() => {
+    firework.classList.add('active');
+  });
+
+  // Remove firework element after animation completes
+  setTimeout(() => {
+    if (fireworkContainer.contains(firework)) {
+      fireworkContainer.removeChild(firework);
+    }
+  }, 1000);
 }
 
 function createBalloons(loadedImages) {
