@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+.invitation-container h1 {
+    font-family: "Great Vibes",  cursive;
+}
+
 .text-container {
   display: inline-block;
   padding: 22px 12px 8px 12px;
@@ -25,7 +29,7 @@ h1 {
   margin: 0;
 }
 p {
-  font-size: x-large;
+  font-size: large;
   color: black;
   margin: 0;
 }
@@ -98,7 +102,7 @@ p {
   }
 
   p {
-    font-size: x-large;
+    font-size: medium;
   }
 
   .text-container {
@@ -113,7 +117,7 @@ p {
   }
 
   p {
-    font-size: large;
+    font-size: small;
   }
 
   .expand-button {
