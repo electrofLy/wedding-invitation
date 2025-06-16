@@ -44,7 +44,7 @@ p {
   max-height: 532px; /* Adjust based on content size */
 }
 
-@media (max-height: 540px) {
+@media (max-height: 720px) {
   .invitation-container {
     justify-content: flex-start; /* Centered on desktop */
   }
