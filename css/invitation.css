@@ -28,6 +28,7 @@ h1 {
   color: black;
   margin: 0;
 }
+
 p {
   font-size: large;
   color: black;
@@ -44,7 +45,7 @@ p {
   max-height: 532px; /* Adjust based on content size */
 }
 
-@media (max-height: 720px) {
+@media (max-height: 672px) {
   .invitation-container {
     justify-content: flex-start; /* Centered on desktop */
   }
@@ -102,7 +103,7 @@ p {
   }
 
   p {
-    font-size: medium;
+    font-size: x-small;
   }
 
   .text-container {
